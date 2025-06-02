@@ -28,7 +28,8 @@ except Exception as e:
 @app.route('/')
 def hello():
     logging.info(f"Homepage visited in {env} mode!")
-    return f"QuakeWatch: Welcome to Seismic Alerts! Running in {env}"
+    return f"QuakeWatch: Welcome to Earthquake Monitoring and Seismic Alerts! Running in {env}"
+
 
 @app.route('/health')
 def health():
