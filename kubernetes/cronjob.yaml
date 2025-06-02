@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: quakewatch-ping
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: curl
+            image: curlimages/curl
+            args:
+            - /bin/sh
+            - -c
+            - curl http://quakewatch-service
+          restartPolicy: OnFailure

@@ -1,0 +1,38 @@
+replicaCount: 2
+image:
+  repository: barakzak/quakewatch
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  type: NodePort
+  port: 80
+  targetPort: 5000
+  nodePort: 30082
+hpa:
+  minReplicas: 2
+  maxReplicas: 5
+  cpuUtilization: 50
+cronjob:
+  schedule: "*/5 * * * *"
+configmap:
+  env: production
+  logLevel: DEBUG
+secret:
+  dbPassword: cGFzc3dvcmQ=  # base64-encoded "password"
+resources:
+  requests:
+    cpu: "100m"
+  limits:
+    cpu: "200m"
+livenessProbe:
+  enabled: true
+  path: /health
+  port: 5000
+  initialDelaySeconds: 10
+  periodSeconds: 5
+readinessProbe:
+  enabled: true
+  path: /health
+  port: 5000
+  initialDelaySeconds: 5
+  periodSeconds: 5

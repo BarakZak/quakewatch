@@ -1,77 +1,65 @@
-![Screenshot of QuakeWatch](static/experts-logo.svg)
-
-# QuakeWatch
-
-**QuakeWatch** is a Flask-based web application designed to display real-time and historical earthquake data. It visualizes earthquake statistics with interactive graphs and provides detailed information sourced from the USGS Earthquake API. Built using an object‑oriented design and modular structure, QuakeWatch separates templates, utility functions, and route definitions, making it both scalable and maintainable. The application is also containerized with Docker for easy deployment.
+QuakeWatch is a Flask-based web application designed to display real-time and historical earthquake data. It fetches data from external APIs and presents it in an easy-to-understand format.
 
 ## Features
 
-- **Real-Time & Historical Data:** Fetches earthquake data from the USGS API.
-- **Interactive Graphs:** Displays earthquake counts over various time periods (e.g., last 30 days, 5-year view) using Matplotlib.
-- **Top Earthquake Events:** Shows the top 5 worldwide earthquakes (last 30 days) by magnitude.
-- **Recent Earthquake Details:** Highlights the most recent earthquake event.
-- **RESTful Endpoints:** Provides endpoints for health checks, status, connectivity tests, and raw data.
-- **Clean UI:** Built with Bootstrap 5, featuring a professional navigation bar with a logo.
-- **Dockerized:** Easily containerized for streamlined deployment.
+- Real-time earthquake data visualization
+- Historical earthquake data lookup
+- Interactive map integration
+- Customizable alerts and notifications
 
-## Project Structure
+## Running the Containerized Version
 
-```
-QuakeWatch/
-├── app.py                  # Application factory and entry point
-├── dashboard.py            # Blueprint & route definitions using OOP style
-├── utils.py                # Helper functions and custom Jinja2 filters
-├── requirements.txt        # Python dependencies
-├── static/
-│   └── experts-logo.svg    # Logo file used in the UI
-└── templates/              # Jinja2 HTML templates
-    ├── base.html           # Base template with common layout and navigation
-    ├── main_page.html      # Home page content
-    └── graph_dashboard.html# Dashboard view with graphs and earthquake details
-```
+To run the containerized version of QuakeWatch, follow these steps:
 
-## Installation
+### Prerequisites
 
-### Locally
+- Ensure you have [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/) installed on your machine.
 
-1. **Clone the Repository:**
+### Cloning the Repository
 
+1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/QuakeWatch.git
+   git clone https://github.com/EduardUsatchev/QuakeWatch.git
    cd QuakeWatch
    ```
 
-2. **Set Up a Virtual Environment (optional but recommended):**
+### Building the Docker Image
 
+2. Build the Docker image using the following command:
    ```bash
-   python -m venv venv
-   source venv/bin/activate   # On Windows: venv\Scripts\activate
+   docker build -t quakewatch:latest .
    ```
 
-3. **Install Dependencies:**
+### Running the Docker Container
 
+3. Run the container using Docker Compose:
    ```bash
-   pip install -r requirements.txt
+   docker-compose up -d
+   ```
+   The application will be accessible at `http://localhost:5000`.
+
+### Stopping the Container
+
+4. To stop the container, use:
+   ```bash
+   docker-compose down
    ```
 
-## Running the Application Locally
+## Pushing to Docker Hub
 
-1. **Start the Flask Application:**
+To push the built image to Docker Hub, follow these steps:
 
+1. Build and tag the image:
    ```bash
-   python app.py
+   docker build -t your_dockerhub_username/quakewatch:latest .
+   ```
+2. Log in to Docker Hub:
+   ```bash
+   docker login
+   ```
+3. Push the image:
+   ```bash
+   docker push your_dockerhub_username/quakewatch:latest
    ```
 
-2. **Access the Application:**
-
-   Open your browser and visit [http://127.0.0.1:5000](http://127.0.0.1:5000) to view the dashboard.
-
-
-## Custom Jinja2 Filter
-
-The project includes a custom filter `timestamp_to_str` that converts epoch timestamps to human-readable strings. This filter is registered during application initialization and is used in the templates to format earthquake event times.
-
-## Known Issues
-
-- **SSL Warning:** You might see a warning regarding LibreSSL when using urllib3. This is informational and does not affect the functionality of the application.
-- **Matplotlib Backend:** The application forces Matplotlib to use the `Agg` backend for headless rendering. Ensure this setting is applied before any Matplotlib imports to avoid GUI-related errors.
+Replace `your_dockerhub_username` with your actual Docker Hub username.
